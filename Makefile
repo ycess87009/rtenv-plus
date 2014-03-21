@@ -22,6 +22,7 @@ CMSIS_PLAT_SRC = $(CMSIS_LIB)/DeviceSupport/$(VENDOR)/$(PLAT)
 
 OUTDIR = build
 SRCDIR = src \
+		 src/unit/ \
          $(CMSIS_LIB)/CoreSupport \
          $(STM32_LIB)/src \
          $(CMSIS_PLAT_SRC)
@@ -32,6 +33,7 @@ INCDIR = include \
 INCLUDES = $(addprefix -I,$(INCDIR))
 DATDIR = data
 TOOLDIR = tool
+UNIT_DIR=./src/unit/
 
 SRC = $(wildcard $(addsuffix /*.c,$(SRCDIR))) \
       $(wildcard $(addsuffix /*.s,$(SRCDIR))) \
@@ -72,5 +74,6 @@ $(OUTDIR)/%.o: %.s
 
 clean:
 	rm -rf $(OUTDIR)
+	rm -f ./src/unit/test-*.txt
 
 -include $(DEP)

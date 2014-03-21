@@ -21,6 +21,8 @@
 #include "event-monitor.h"
 #include "romfs.h"
 
+#include "unit_test.h"
+
 #define MAX_CMDNAME 19
 #define MAX_ARGC 19
 #define MAX_CMDHELP 1023
@@ -29,6 +31,12 @@
 #define MAX_ENVCOUNT 16
 #define MAX_ENVNAME 15
 #define MAX_ENVVALUE 63
+
+void *malloc(size_t size)
+{
+	static char m[400] = {0};
+	return m;
+}
 
 /*Global Variables*/
 char next_line[3] = {'\n','\r','\0'};
@@ -52,8 +60,11 @@ void show_task_info(int argc, char *argv[]);
 void show_man_page(int argc, char *argv[]);
 void show_history(int argc, char *argv[]);
 void show_xxd(int argc, char *argv[]);
+void show_ls(int argc, char *argv[]);
+void show_cat(int argc, char *argv[]);
 
 /* Enumeration for command types. */
+
 enum {
 	CMD_ECHO = 0,
 	CMD_EXPORT,
@@ -62,8 +73,11 @@ enum {
 	CMD_MAN,
 	CMD_PS,
 	CMD_XXD,
+	CMD_LS,
+	CMD_CAT,
 	CMD_COUNT
 } CMD_TYPE;
+
 /* Structure for command handler. */
 typedef struct {
 	char cmd[MAX_CMDNAME + 1];
@@ -78,9 +92,12 @@ const hcmd_entry cmd_data[CMD_COUNT] = {
 	[CMD_MAN] = {.cmd = "man", .func = show_man_page, .description = "Manual pager."},
 	[CMD_PS] = {.cmd = "ps", .func = show_task_info, .description = "List all the processes."},
 	[CMD_XXD] = {.cmd = "xxd", .func = show_xxd, .description = "Make a hexdump."},
+	[CMD_LS] = {.cmd = "ls", .func = show_ls, .description = "List all file in this directory."},
+	[CMD_CAT] = {.cmd = "cat", .func = show_cat, .description = "Print text of file."},
 };
 
 /* Structure for environment variables. */
+
 typedef struct {
 	char name[MAX_ENVNAME + 1];
 	char value[MAX_ENVVALUE + 1];
@@ -121,7 +138,7 @@ void serialin(USART_TypeDef* uart, unsigned int intr)
 	mkfifo("/dev/tty0/in", 0);
 	fd = open("/dev/tty0/in", 0);
 
-    USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+	USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
 
 	while (1) {
 		interrupt_wait(intr);
@@ -278,6 +295,18 @@ void serial_test_task()
 					p--;
 					write(fdout, "\b \b", 4);
 				}
+			}
+			else if(put_ch[0]=='\t')//tab
+			{
+
+			}
+			else if(put_ch[0]==30 ||put_ch[0]==31)//up and down
+			{
+
+			}
+			else if(put_ch[0]==29||put_ch[0]==28)//left and right
+			{
+			
 			}
 			else if (p - cmd[cur_his] < CMDBUF_SIZE - 1) {
 				*p++ = put_ch[0];
@@ -480,13 +509,16 @@ void show_task_info(int argc, char* argv[])
 
 		write(fdout, &task_info_pid , 2);
 		write_blank(3);
-			write(fdout, &task_info_status , 2);
+		write(fdout, &task_info_status , 2);
 		write_blank(5);
 		write(fdout, &task_info_priority , 3);
 
 		write(fdout, &next_line , 3);
 	}
 }
+
+
+
 
 //this function helps to show int
 
@@ -596,113 +628,175 @@ void write_blank(int blank_num)
 
 char hexof(int dec)
 {
-    const char hextab[] = "0123456789abcdef";
+	const char hextab[] = "0123456789abcdef";
 
-    if (dec < 0 || dec > 15)
-        return -1;
+	if (dec < 0 || dec > 15)
+		return -1;
 
-    return hextab[dec];
+	return hextab[dec];
 }
 
 char char_filter(char c, char fallback)
 {
-    if (c < 0x20 || c > 0x7E)
-        return fallback;
+	if (c < 0x20 || c > 0x7E)
+		return fallback;
 
-    return c;
+	return c;
 }
 
+void show_ls(int argc,char *argv[])
+{
+
+}
 #define XXD_WIDTH 0x10
+void show_cat(int argc,char *argv[])
+{ 
+	int readfd = -1;
+	char ch;
+	int size;
+	int pos = 0;
+	char chout[2] = {0};
+	int i;
+	char buf[XXD_WIDTH];
+
+	if (argc == 1) { /* fallback to stdin */
+		write(fdout, "Please input the file name\n\r", 30);
+		return ;
+	}
+	else { /* open file of argv[1] */
+		readfd = open(argv[1], 0);
+
+		if (readfd < 0) { /* Open error */
+			write(fdout, "cat: ", 6);
+			write(fdout, argv[1], strlen(argv[1]) + 1);
+			write(fdout, ": No such file or directory\r\n", 31);
+			return;
+		}
+	}
+
+	lseek(readfd, 0, SEEK_SET);
+	while ((size = read(readfd, &ch, sizeof(ch))) && size != -1) {
+		if (ch != -1 && ch != 0x04) {
+			/* store in buffer */
+			buf[pos % XXD_WIDTH] = ch;
+			pos++;
+			if (pos % XXD_WIDTH == 0) { 
+				for (i = 0; i < XXD_WIDTH; i++) {
+					//chout[0] = char_filter(buf[i], '.');
+					chout[0] = buf[i];
+					write(fdout, chout, 2);
+					if(chout[0]=='\n')
+					write(fdout, "\r", 2);
+					}
+				}
+		}
+		else { /* EOF */
+			write(fdout, "\n\r", 3);
+			break;
+		}
+	}
+	for (i = 0; i < pos % XXD_WIDTH; i++) {
+		//chout[0] = char_filter(buf[i], '.');
+		chout[0] = buf[i];
+		write(fdout, chout, 2);
+		if(chout[0]=='\n')
+		write(fdout, "\r", 2);
+	}
+	write(fdout, "\n\r", 3);
+
+}
+
 
 //xxd
 void show_xxd(int argc, char *argv[])
 {
-    int readfd = -1;
-    char buf[XXD_WIDTH];
-    char ch;
-    char chout[2] = {0};
-    int pos = 0;
-    int size;
-    int i;
+	int readfd = -1;
+	char buf[XXD_WIDTH];
+	char ch;
+	char chout[2] = {0};
+	int pos = 0;
+	int size;
+	int i;
 
-    if (argc == 1) { /* fallback to stdin */
-        readfd = fdin;
-    }
-    else { /* open file of argv[1] */
-        readfd = open(argv[1], 0);
+	if (argc == 1) { /* fallback to stdin */
+		readfd = fdin;
+	}
+	else { /* open file of argv[1] */
+		readfd = open(argv[1], 0);
 
-        if (readfd < 0) { /* Open error */
-            write(fdout, "xxd: ", 6);
-            write(fdout, argv[1], strlen(argv[1]) + 1);
-            write(fdout, ": No such file or directory\r\n", 31);
-            return;
-        }
-    }
+		if (readfd < 0) { /* Open error */
+			write(fdout, "xxd: ", 6);
+			write(fdout, argv[1], strlen(argv[1]) + 1);
+			write(fdout, ": No such file or directory\r\n", 31);
+			return;
+		}
+	}
 
-    lseek(readfd, 0, SEEK_SET);
-    while ((size = read(readfd, &ch, sizeof(ch))) && size != -1) {
-        if (ch != -1 && ch != 0x04) { /* has something read */
+	lseek(readfd, 0, SEEK_SET);
+	while ((size = read(readfd, &ch, sizeof(ch))) && size != -1) {
+		if (ch != -1 && ch != 0x04) { /* has something read */
 
-            if (pos % XXD_WIDTH == 0) { /* new line, print address */
-                for (i = sizeof(pos) * 8 - 4; i >= 0; i -= 4) {
-                    chout[0] = hexof((pos >> i) & 0xF);
-                    write(fdout, chout, 2);
-                }
+			if (pos % XXD_WIDTH == 0) { /* new line, print address */
+				for (i = sizeof(pos) * 8 - 4; i >= 0; i -= 4) {
+					chout[0] = hexof((pos >> i) & 0xF);
+					write(fdout, chout, 2);
+				}
 
-                write(fdout, ":", 2);
-            }
+				write(fdout, ":", 2);
+			}
 
-            if (pos % 2 == 0) { /* whitespace for each 2 bytes */
-                write(fdout, " ", 2);
-            }
+			if (pos % 2 == 0) { /* whitespace for each 2 bytes */
+				write(fdout, " ", 2);
+			}
 
-            /* higher bits */
-            chout[0] = hexof(ch >> 4);
-            write(fdout, chout, 2);
+			/* higher bits */
+			chout[0] = hexof(ch >> 4);
+			write(fdout, chout, 2);
 
-            /* lower bits*/
-            chout[0] = hexof(ch & 0xF);
-            write(fdout, chout, 2);
+			/* lower bits*/
+			chout[0] = hexof(ch & 0xF);
+			write(fdout, chout, 2);
 
-            /* store in buffer */
-            buf[pos % XXD_WIDTH] = ch;
+			/* store in buffer */
+			buf[pos % XXD_WIDTH] = ch;
 
-            pos++;
+			pos++;
 
-            if (pos % XXD_WIDTH == 0) { /* end of line */
-                write(fdout, "  ", 3);
+			if (pos % XXD_WIDTH == 0) { /* end of line */
+				write(fdout, "  ", 3);
 
-                for (i = 0; i < XXD_WIDTH; i++) {
-                    chout[0] = char_filter(buf[i], '.');
-                    write(fdout, chout, 2);
-                }
+				for (i = 0; i < XXD_WIDTH; i++) {
+					chout[0] = char_filter(buf[i], '.');
+					write(fdout, chout, 2);
 
-                write(fdout, "\r\n", 3);
-            }
-        }
-        else { /* EOF */
-            break;
-        }
-    }
+				}
 
-    if (pos % XXD_WIDTH != 0) { /* rest */
-        /* align */
-        for (i = pos % XXD_WIDTH; i < XXD_WIDTH; i++) {
-            if (i % 2 == 0) { /* whitespace for each 2 bytes */
-                write(fdout, " ", 2);
-            }
-            write(fdout, "  ", 3);
-        }
+				write(fdout, "\r\n", 3);
+			}
+		}
+		else { /* EOF */
+			break;
+		}
+	}
 
-        write(fdout, "  ", 3);
+	if (pos % XXD_WIDTH != 0) { /* rest */
+		/* align */
+		for (i = pos % XXD_WIDTH; i < XXD_WIDTH; i++) {
+			if (i % 2 == 0) { /* whitespace for each 2 bytes */
+				write(fdout, " ", 2);
+			}
+			write(fdout, "  ", 3);
+		}
 
-        for (i = 0; i < pos % XXD_WIDTH; i++) {
-            chout[0] = char_filter(buf[i], '.');
-            write(fdout, chout, 2);
-        }
+		write(fdout, "  ", 3);
 
-        write(fdout, "\r\n", 3);
-    }
+		for (i = 0; i < pos % XXD_WIDTH; i++) {
+			chout[0] = char_filter(buf[i], '.');
+			write(fdout, chout, 2);
+		}
+
+		write(fdout, "\r\n", 3);
+	}
 }
 
 
@@ -728,16 +822,16 @@ void first()
 #define TIME_EVENT (FILE_LIMIT + INTR_LIMIT)
 
 int intr_release(struct event_monitor *monitor, int event,
-                 struct task_control_block *task, void *data)
+		struct task_control_block *task, void *data)
 {
-    return 1;
+	return 1;
 }
 
 int time_release(struct event_monitor *monitor, int event,
-                 struct task_control_block *task, void *data)
+		struct task_control_block *task, void *data)
 {
-    int *tick_count = data;
-    return task->stack->r0 == *tick_count;
+	int *tick_count = data;
+	return task->stack->r0 == *tick_count;
 }
 
 /* System resources */
@@ -767,8 +861,8 @@ int main()
 	init_rs232();
 	__enable_irq();
 
-    /* Initialize memory pool */
-    memory_pool_init(&memory_pool, MEM_LIMIT, memory_space);
+	/* Initialize memory pool */
+	memory_pool_init(&memory_pool, MEM_LIMIT, memory_space);
 
 	/* Initialize all files */
 	for (i = 0; i < FILE_LIMIT; i++)
@@ -778,20 +872,20 @@ int main()
 	for (i = 0; i <= PRIORITY_LIMIT; i++)
 		list_init(&ready_list[i]);
 
-    /* Initialise event monitor */
-    event_monitor_init(&event_monitor, events, ready_list);
+	/* Initialise event monitor */
+	event_monitor_init(&event_monitor, events, ready_list);
 
 	/* Initialize fifos */
 	for (i = 0; i <= PATHSERVER_FD; i++)
 		file_mknod(i, -1, files, S_IFIFO, &memory_pool, &event_monitor);
 
-    /* Register IRQ events, see INTR_LIMIT */
+	/* Register IRQ events, see INTR_LIMIT */
 	for (i = -15; i < INTR_LIMIT - 15; i++)
-	    event_monitor_register(&event_monitor, INTR_EVENT(i), intr_release, 0);
+		event_monitor_register(&event_monitor, INTR_EVENT(i), intr_release, 0);
 
 	event_monitor_register(&event_monitor, TIME_EVENT, time_release, &tick_count);
 
-    /* Initialize first thread */
+	/* Initialize first thread */
 	tasks[task_count].stack = (void*)init_task(stacks[task_count], &first);
 	tasks[task_count].pid = 0;
 	tasks[task_count].priority = PRIORITY_DEFAULT;
@@ -805,180 +899,180 @@ int main()
 		timeup = 0;
 
 		switch (tasks[current_task].stack->r7) {
-		case 0x1: /* fork */
-			if (task_count == TASK_LIMIT) {
-				/* Cannot create a new task, return error */
-				tasks[current_task].stack->r0 = -1;
-			}
-			else {
-				/* Compute how much of the stack is used */
-				size_t used = stacks[current_task] + STACK_SIZE
-					      - (unsigned int*)tasks[current_task].stack;
-				/* New stack is END - used */
-				tasks[task_count].stack = (void*)(stacks[task_count] + STACK_SIZE - used);
-				/* Copy only the used part of the stack */
-				memcpy(tasks[task_count].stack, tasks[current_task].stack,
-				       used * sizeof(unsigned int));
-				/* Set PID */
-				tasks[task_count].pid = task_count;
-				/* Set priority, inherited from forked task */
-				tasks[task_count].priority = tasks[current_task].priority;
-				/* Set return values in each process */
-				tasks[current_task].stack->r0 = task_count;
-				tasks[task_count].stack->r0 = 0;
-				list_init(&tasks[task_count].list);
-				list_push(&ready_list[tasks[task_count].priority], &tasks[task_count].list);
-				/* There is now one more task */
-				task_count++;
-			}
-			break;
-		case 0x2: /* getpid */
-			tasks[current_task].stack->r0 = current_task;
-			break;
-		case 0x3: /* write */
-		    {
-		        /* Check fd is valid */
-		        int fd = tasks[current_task].stack->r0;
-		        if (fd < FILE_LIMIT && files[fd]) {
-		            /* Prepare file request, store reference in r0 */
-		            requests[current_task].task = &tasks[current_task];
-		            requests[current_task].buf =
-		                (void*)tasks[current_task].stack->r1;
-		            requests[current_task].size = tasks[current_task].stack->r2;
-		            tasks[current_task].stack->r0 =
-		                (int)&requests[current_task];
-
-                    /* Write */
-			        file_write(files[fd], &requests[current_task],
-			                   &event_monitor);
-			    }
-			    else {
-			        tasks[current_task].stack->r0 = -1;
-			    }
-			} break;
-		case 0x4: /* read */
-            {
-		        /* Check fd is valid */
-		        int fd = tasks[current_task].stack->r0;
-		        if (fd < FILE_LIMIT && files[fd]) {
-		            /* Prepare file request, store reference in r0 */
-		            requests[current_task].task = &tasks[current_task];
-		            requests[current_task].buf =
-		                (void*)tasks[current_task].stack->r1;
-		            requests[current_task].size = tasks[current_task].stack->r2;
-		            tasks[current_task].stack->r0 =
-		                (int)&requests[current_task];
-
-                    /* Read */
-			        file_read(files[fd], &requests[current_task],
-			                  &event_monitor);
-			    }
-			    else {
-			        tasks[current_task].stack->r0 = -1;
-			    }
-			} break;
-		case 0x5: /* interrupt_wait */
-			/* Enable interrupt */
-			NVIC_EnableIRQ(tasks[current_task].stack->r0);
-			/* Block task waiting for interrupt to happen */
-			event_monitor_block(&event_monitor,
-			                    INTR_EVENT(tasks[current_task].stack->r0),
-			                    &tasks[current_task]);
-			tasks[current_task].status = TASK_WAIT_INTR;
-			break;
-		case 0x6: /* getpriority */
-			{
-				int who = tasks[current_task].stack->r0;
-				if (who > 0 && who < (int)task_count)
-					tasks[current_task].stack->r0 = tasks[who].priority;
-				else if (who == 0)
-					tasks[current_task].stack->r0 = tasks[current_task].priority;
-				else
+			case 0x1: /* fork */
+				if (task_count == TASK_LIMIT) {
+					/* Cannot create a new task, return error */
 					tasks[current_task].stack->r0 = -1;
-			} break;
-		case 0x7: /* setpriority */
-			{
-				int who = tasks[current_task].stack->r0;
-				int value = tasks[current_task].stack->r1;
-				value = (value < 0) ? 0 : ((value > PRIORITY_LIMIT) ? PRIORITY_LIMIT : value);
-				if (who > 0 && who < (int)task_count) {
-					tasks[who].priority = value;
-					if (tasks[who].status == TASK_READY)
-					    list_push(&ready_list[value], &tasks[who].list);
-				}
-				else if (who == 0) {
-					tasks[current_task].priority = value;
-				    list_unshift(&ready_list[value], &tasks[current_task].list);
 				}
 				else {
-					tasks[current_task].stack->r0 = -1;
-					break;
+					/* Compute how much of the stack is used */
+					size_t used = stacks[current_task] + STACK_SIZE
+						- (unsigned int*)tasks[current_task].stack;
+					/* New stack is END - used */
+					tasks[task_count].stack = (void*)(stacks[task_count] + STACK_SIZE - used);
+					/* Copy only the used part of the stack */
+					memcpy(tasks[task_count].stack, tasks[current_task].stack,
+							used * sizeof(unsigned int));
+					/* Set PID */
+					tasks[task_count].pid = task_count;
+					/* Set priority, inherited from forked task */
+					tasks[task_count].priority = tasks[current_task].priority;
+					/* Set return values in each process */
+					tasks[current_task].stack->r0 = task_count;
+					tasks[task_count].stack->r0 = 0;
+					list_init(&tasks[task_count].list);
+					list_push(&ready_list[tasks[task_count].priority], &tasks[task_count].list);
+					/* There is now one more task */
+					task_count++;
 				}
-				tasks[current_task].stack->r0 = 0;
-			} break;
-		case 0x8: /* mknod */
-			tasks[current_task].stack->r0 =
-				file_mknod(tasks[current_task].stack->r0,
-				           tasks[current_task].pid,
-				           files,
-					       tasks[current_task].stack->r2,
-					       &memory_pool,
-					       &event_monitor);
-			break;
-		case 0x9: /* sleep */
-			if (tasks[current_task].stack->r0 != 0) {
-				tasks[current_task].stack->r0 += tick_count;
-				tasks[current_task].status = TASK_WAIT_TIME;
-			    event_monitor_block(&event_monitor, TIME_EVENT,
-			                        &tasks[current_task]);
-			}
-			break;
-		case 0xa: /* lseek */
-            {
-		        /* Check fd is valid */
-		        int fd = tasks[current_task].stack->r0;
-		        if (fd < FILE_LIMIT && files[fd]) {
-		            /* Prepare file request, store reference in r0 */
-		            requests[current_task].task = &tasks[current_task];
-		            requests[current_task].buf = NULL;
-		            requests[current_task].size = tasks[current_task].stack->r1;
-		            requests[current_task].whence = tasks[current_task].stack->r2;
-		            tasks[current_task].stack->r0 =
-		                (int)&requests[current_task];
+				break;
+			case 0x2: /* getpid */
+				tasks[current_task].stack->r0 = current_task;
+				break;
+			case 0x3: /* write */
+				{
+					/* Check fd is valid */
+					int fd = tasks[current_task].stack->r0;
+					if (fd < FILE_LIMIT && files[fd]) {
+						/* Prepare file request, store reference in r0 */
+						requests[current_task].task = &tasks[current_task];
+						requests[current_task].buf =
+							(void*)tasks[current_task].stack->r1;
+						requests[current_task].size = tasks[current_task].stack->r2;
+						tasks[current_task].stack->r0 =
+							(int)&requests[current_task];
 
-                    /* Read */
-			        file_lseek(files[fd], &requests[current_task],
-			                   &event_monitor);
-			    }
-			    else {
-			        tasks[current_task].stack->r0 = -1;
-			    }
-			} break;
-		default: /* Catch all interrupts */
-			if ((int)tasks[current_task].stack->r7 < 0) {
-				unsigned int intr = -tasks[current_task].stack->r7 - 16;
+						/* Write */
+						file_write(files[fd], &requests[current_task],
+								&event_monitor);
+					}
+					else {
+						tasks[current_task].stack->r0 = -1;
+					}
+				} break;
+			case 0x4: /* read */
+				{
+					/* Check fd is valid */
+					int fd = tasks[current_task].stack->r0;
+					if (fd < FILE_LIMIT && files[fd]) {
+						/* Prepare file request, store reference in r0 */
+						requests[current_task].task = &tasks[current_task];
+						requests[current_task].buf =
+							(void*)tasks[current_task].stack->r1;
+						requests[current_task].size = tasks[current_task].stack->r2;
+						tasks[current_task].stack->r0 =
+							(int)&requests[current_task];
 
-				if (intr == SysTick_IRQn) {
-					/* Never disable timer. We need it for pre-emption */
-					timeup = 1;
-					tick_count++;
-					event_monitor_release(&event_monitor, TIME_EVENT);
+						/* Read */
+						file_read(files[fd], &requests[current_task],
+								&event_monitor);
+					}
+					else {
+						tasks[current_task].stack->r0 = -1;
+					}
+				} break;
+			case 0x5: /* interrupt_wait */
+				/* Enable interrupt */
+				NVIC_EnableIRQ(tasks[current_task].stack->r0);
+				/* Block task waiting for interrupt to happen */
+				event_monitor_block(&event_monitor,
+						INTR_EVENT(tasks[current_task].stack->r0),
+						&tasks[current_task]);
+				tasks[current_task].status = TASK_WAIT_INTR;
+				break;
+			case 0x6: /* getpriority */
+				{
+					int who = tasks[current_task].stack->r0;
+					if (who > 0 && who < (int)task_count)
+						tasks[current_task].stack->r0 = tasks[who].priority;
+					else if (who == 0)
+						tasks[current_task].stack->r0 = tasks[current_task].priority;
+					else
+						tasks[current_task].stack->r0 = -1;
+				} break;
+			case 0x7: /* setpriority */
+				{
+					int who = tasks[current_task].stack->r0;
+					int value = tasks[current_task].stack->r1;
+					value = (value < 0) ? 0 : ((value > PRIORITY_LIMIT) ? PRIORITY_LIMIT : value);
+					if (who > 0 && who < (int)task_count) {
+						tasks[who].priority = value;
+						if (tasks[who].status == TASK_READY)
+							list_push(&ready_list[value], &tasks[who].list);
+					}
+					else if (who == 0) {
+						tasks[current_task].priority = value;
+						list_unshift(&ready_list[value], &tasks[current_task].list);
+					}
+					else {
+						tasks[current_task].stack->r0 = -1;
+						break;
+					}
+					tasks[current_task].stack->r0 = 0;
+				} break;
+			case 0x8: /* mknod */
+				tasks[current_task].stack->r0 =
+					file_mknod(tasks[current_task].stack->r0,
+							tasks[current_task].pid,
+							files,
+							tasks[current_task].stack->r2,
+							&memory_pool,
+							&event_monitor);
+				break;
+			case 0x9: /* sleep */
+				if (tasks[current_task].stack->r0 != 0) {
+					tasks[current_task].stack->r0 += tick_count;
+					tasks[current_task].status = TASK_WAIT_TIME;
+					event_monitor_block(&event_monitor, TIME_EVENT,
+							&tasks[current_task]);
 				}
-				else {
-					/* Disable interrupt, interrupt_wait re-enables */
-					NVIC_DisableIRQ(intr);
+				break;
+			case 0xa: /* lseek */
+				{
+					/* Check fd is valid */
+					int fd = tasks[current_task].stack->r0;
+					if (fd < FILE_LIMIT && files[fd]) {
+						/* Prepare file request, store reference in r0 */
+						requests[current_task].task = &tasks[current_task];
+						requests[current_task].buf = NULL;
+						requests[current_task].size = tasks[current_task].stack->r1;
+						requests[current_task].whence = tasks[current_task].stack->r2;
+						tasks[current_task].stack->r0 =
+							(int)&requests[current_task];
+
+						/* Read */
+						file_lseek(files[fd], &requests[current_task],
+								&event_monitor);
+					}
+					else {
+						tasks[current_task].stack->r0 = -1;
+					}
+				} break;
+			default: /* Catch all interrupts */
+				if ((int)tasks[current_task].stack->r7 < 0) {
+					unsigned int intr = -tasks[current_task].stack->r7 - 16;
+
+					if (intr == SysTick_IRQn) {
+						/* Never disable timer. We need it for pre-emption */
+						timeup = 1;
+						tick_count++;
+						event_monitor_release(&event_monitor, TIME_EVENT);
+					}
+					else {
+						/* Disable interrupt, interrupt_wait re-enables */
+						NVIC_DisableIRQ(intr);
+					}
+					event_monitor_release(&event_monitor, INTR_EVENT(intr));
 				}
-				event_monitor_release(&event_monitor, INTR_EVENT(intr));
-			}
 		}
 
-        /* Rearrange ready list and event list */
+		/* Rearrange ready list and event list */
 		event_monitor_serve(&event_monitor);
 
 		/* Check whether to context switch */
 		task = &tasks[current_task];
 		if (timeup && ready_list[task->priority].next == &task->list)
-		    list_push(&ready_list[task->priority], &tasks[current_task].list);
+			list_push(&ready_list[task->priority], &tasks[current_task].list);
 
 		/* Select next TASK_READY task */
 		for (i = 0; list_empty(&ready_list[i]); i++);

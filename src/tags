@@ -1,0 +1,255 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CMDBUF_SIZE	kernel.c	28;"	d	file:
+CMD_COUNT	kernel.c	/^	CMD_COUNT$/;"	e	enum:__anon1	file:
+CMD_ECHO	kernel.c	/^	CMD_ECHO = 0,$/;"	e	enum:__anon1	file:
+CMD_EXPORT	kernel.c	/^	CMD_EXPORT,$/;"	e	enum:__anon1	file:
+CMD_HELP	kernel.c	/^	CMD_HELP,$/;"	e	enum:__anon1	file:
+CMD_HISTORY	kernel.c	/^	CMD_HISTORY,$/;"	e	enum:__anon1	file:
+CMD_MAN	kernel.c	/^	CMD_MAN,$/;"	e	enum:__anon1	file:
+CMD_PS	kernel.c	/^	CMD_PS,$/;"	e	enum:__anon1	file:
+CMD_TYPE	kernel.c	/^} CMD_TYPE;$/;"	v	typeref:enum:__anon1
+CMD_XXD	kernel.c	/^	CMD_XXD,$/;"	e	enum:__anon1	file:
+HISTORY_COUNT	kernel.c	27;"	d	file:
+INTR_EVENT	kernel.c	726;"	d	file:
+INTR_EVENT_REVERSE	kernel.c	727;"	d	file:
+L	memcpy.s	/^L:$/;"	l
+MAX_ARGC	kernel.c	25;"	d	file:
+MAX_CMDHELP	kernel.c	26;"	d	file:
+MAX_CMDNAME	kernel.c	24;"	d	file:
+MAX_ENVCOUNT	kernel.c	29;"	d	file:
+MAX_ENVNAME	kernel.c	30;"	d	file:
+MAX_ENVVALUE	kernel.c	31;"	d	file:
+SVC_Handler	context_switch.s	/^SVC_Handler:$/;"	l
+SysTick_Handler	context_switch.s	/^SysTick_Handler:$/;"	l
+TIME_EVENT	kernel.c	728;"	d	file:
+USART2_IRQHandler	context_switch.s	/^USART2_IRQHandler:$/;"	l
+XXD_WIDTH	kernel.c	615;"	d	file:
+__anon2::cmd	kernel.c	/^	char cmd[MAX_CMDNAME + 1];$/;"	m	struct:__anon2	file:	access:public
+__anon2::description	kernel.c	/^	char description[MAX_CMDHELP + 1];$/;"	m	struct:__anon2	file:	access:public
+__anon2::func	kernel.c	/^	void (*func)(int, char**);$/;"	m	struct:__anon2	file:	access:public
+__anon3::name	kernel.c	/^	char name[MAX_ENVNAME + 1];$/;"	m	struct:__anon3	file:	access:public
+__anon3::value	kernel.c	/^	char value[MAX_ENVVALUE + 1];$/;"	m	struct:__anon3	file:	access:public
+activate	context_switch.s	/^activate:$/;"	l
+aligned	memcpy.s	/^aligned:$/;"	l
+block_driver_lseek	block.c	/^int block_driver_lseek (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_driver_lseekable	block.c	/^int block_driver_lseekable (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_driver_read	block.c	/^int block_driver_read (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_driver_readable	block.c	/^int block_driver_readable (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_driver_writable	block.c	/^int block_driver_writable (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_driver_write	block.c	/^int block_driver_write (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_event_release	block.c	/^int block_event_release(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, struct task_control_block *task, void *data)
+block_init	block.c	/^int block_init(int fd, int driver_pid, struct file *files[],$/;"	f	signature:(int fd, int driver_pid, struct file *files[], struct memory_pool *memory_pool, struct event_monitor *monitor)
+block_lseek	block.c	/^int block_lseek (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+block_lseekable	block.c	/^int block_lseekable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+block_ops	block.c	/^static struct file_operations block_ops = {$/;"	v	typeref:struct:file_operations	file:
+block_read	block.c	/^int block_read (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+block_readable	block.c	/^int block_readable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+block_request_lseek	block.c	/^int block_request_lseek (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_request_lseekable	block.c	/^int block_request_lseekable (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_request_read	block.c	/^int block_request_read (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_request_readable	block.c	/^int block_request_readable (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_request_writable	block.c	/^int block_request_writable (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_request_write	block.c	/^int block_request_write (struct block *block, struct file_request *request,$/;"	f	signature:(struct block *block, struct file_request *request, struct event_monitor *monitor)
+block_response	block.c	/^int block_response(int fd, char *buf, int len)$/;"	f	signature:(int fd, char *buf, int len)
+block_response	block.c	/^struct block_response {$/;"	s	file:
+block_response::buf	block.c	/^    char *buf;$/;"	m	struct:block_response	file:	access:public
+block_response::transfer_len	block.c	/^    int transfer_len;$/;"	m	struct:block_response	file:	access:public
+block_writable	block.c	/^int block_writable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+block_write	block.c	/^int block_write (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+buf	block.c	/^    char *buf;$/;"	m	struct:block_response	file:	access:public
+buf	regfile.c	/^    char *buf;$/;"	m	struct:regfile_response	file:	access:public
+char_filter	kernel.c	/^char char_filter(char c, char fallback)$/;"	f	signature:(char c, char fallback)
+check_keyword	kernel.c	/^void check_keyword()$/;"	f
+check_keyword	kernel.c	/^void check_keyword();$/;"	p	file:
+cmd	kernel.c	/^	char cmd[MAX_CMDNAME + 1];$/;"	m	struct:__anon2	file:	access:public
+cmd	kernel.c	/^char cmd[HISTORY_COUNT][CMDBUF_SIZE];$/;"	v
+cmd_data	kernel.c	/^const hcmd_entry cmd_data[CMD_COUNT] = {$/;"	v
+cmdtok	kernel.c	/^char *cmdtok(char *cmd)$/;"	f	signature:(char *cmd)
+cur_his	kernel.c	/^int cur_his=0;$/;"	v
+description	kernel.c	/^	char description[MAX_CMDHELP + 1];$/;"	m	struct:__anon2	file:	access:public
+dev	path.c	/^    int dev;$/;"	m	struct:mount	file:	access:public
+device	romfs.c	/^    int device;$/;"	m	struct:romfs_file	file:	access:public
+echo	kernel.c	/^void echo()$/;"	f
+enable_button_interrupts	stm32_p103.c	/^void enable_button_interrupts(void)$/;"	f	signature:(void)
+enable_rs232	stm32_p103.c	/^void enable_rs232(void)$/;"	f	signature:(void)
+enable_rs232_interrupts	stm32_p103.c	/^void enable_rs232_interrupts(void)$/;"	f	signature:(void)
+env_count	kernel.c	/^int env_count = 0;$/;"	v
+env_var	kernel.c	/^evar_entry env_var[MAX_ENVCOUNT];$/;"	v
+evar_entry	kernel.c	/^} evar_entry;$/;"	t	typeref:struct:__anon3	file:
+event_monitor_block	event-monitor.c	/^void event_monitor_block(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, struct task_control_block *task)
+event_monitor_find_free	event-monitor.c	/^int event_monitor_find_free(struct event_monitor *monitor)$/;"	f	signature:(struct event_monitor *monitor)
+event_monitor_init	event-monitor.c	/^void event_monitor_init(struct event_monitor *monitor,$/;"	f	signature:(struct event_monitor *monitor, struct event *events, struct list *ready_list)
+event_monitor_register	event-monitor.c	/^void event_monitor_register(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, event_monitor_handler handler, void *data)
+event_monitor_release	event-monitor.c	/^void event_monitor_release(struct event_monitor *monitor, int event)$/;"	f	signature:(struct event_monitor *monitor, int event)
+event_monitor_serve	event-monitor.c	/^void event_monitor_serve(struct event_monitor *monitor)$/;"	f	signature:(struct event_monitor *monitor)
+events	kernel.c	/^struct event events[EVENT_LIMIT];$/;"	v	typeref:struct:event
+export_envvar	kernel.c	/^void export_envvar(int argc, char *argv[])$/;"	f	signature:(int argc, char *argv[])
+export_envvar	kernel.c	/^void export_envvar(int argc, char *argv[]);$/;"	p	file:	signature:(int argc, char *argv[])
+fd	romfs.c	/^    int fd;$/;"	m	struct:romfs_file	file:	access:public
+fdin	kernel.c	/^int fdin;$/;"	v
+fdout	kernel.c	/^int fdout;$/;"	v
+fifo_init	fifo.c	/^fifo_init(int fd, int driver_pid, struct file *files[],$/;"	f	signature:(int fd, int driver_pid, struct file *files[], struct memory_pool *memory_pool, struct event_monitor *monitor)
+fifo_ops	fifo.c	/^static struct file_operations fifo_ops = {$/;"	v	typeref:struct:file_operations	file:
+fifo_read	fifo.c	/^fifo_read (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+fifo_readable	fifo.c	/^fifo_readable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+fifo_writable	fifo.c	/^fifo_writable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+fifo_write	fifo.c	/^fifo_write (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+file_lseek	file.c	/^int file_lseek(struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+file_mknod	file.c	/^file_mknod(int fd, int driver_pid, struct file *files[], int dev,$/;"	f	signature:(int fd, int driver_pid, struct file *files[], int dev, struct memory_pool *memory_pool, struct event_monitor *event_monitor)
+file_read	file.c	/^int file_read(struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+file_release	file.c	/^int file_release(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, struct task_control_block *task, void *data)
+file_write	file.c	/^int file_write(struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+files	kernel.c	/^struct file *files[FILE_LIMIT];$/;"	v	typeref:struct:file
+fill_arg	kernel.c	/^int fill_arg(char *const dest, const char *argv)$/;"	f	signature:(char *const dest, const char *argv)
+fill_arg	kernel.c	/^int fill_arg(char *const dest, const char *argv);$/;"	p	file:	signature:(char *const dest, const char *argv)
+find_envvar	kernel.c	/^char *find_envvar(const char *name)$/;"	f	signature:(const char *name)
+find_events	kernel.c	/^void find_events()$/;"	f
+find_events	kernel.c	/^void find_events();$/;"	p	file:
+first	kernel.c	/^void first()$/;"	f
+fork	syscall.s	/^fork:$/;"	l
+fs	path.c	/^    int fs;$/;"	m	struct:mount	file:	access:public
+func	kernel.c	/^	void (*func)(int, char**);$/;"	m	struct:__anon2	file:	access:public
+getpid	syscall.s	/^getpid:$/;"	l
+getpriority	syscall.s	/^getpriority:$/;"	l
+greeting	kernel.c	/^void greeting()$/;"	f
+hcmd_entry	kernel.c	/^} hcmd_entry;$/;"	t	typeref:struct:__anon2	file:
+hexof	kernel.c	/^char hexof(int dec)$/;"	f	signature:(int dec)
+init_button	stm32_p103.c	/^void init_button(void)$/;"	f	signature:(void)
+init_led	stm32_p103.c	/^void init_led(void)$/;"	f	signature:(void)
+init_rs232	stm32_p103.c	/^void init_rs232(void)$/;"	f	signature:(void)
+init_task	task.c	/^unsigned int *init_task(unsigned int *stack, void (*start)())$/;"	f	signature:(unsigned int *stack, void (*start)())
+interrupt_wait	syscall.s	/^interrupt_wait:$/;"	l
+intr_release	kernel.c	/^int intr_release(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, struct task_control_block *task, void *data)
+isdir	romfs.c	/^    uint32_t isdir;$/;"	m	struct:romfs_entry	file:	access:public
+itoa	kernel.c	/^void itoa(int n, char *dst, int base)$/;"	f	signature:(int n, char *dst, int base)
+itoa	kernel.c	/^void itoa(int n, char *dst, int base);$/;"	p	file:	signature:(int n, char *dst, int base)
+len	romfs.c	/^    size_t len;$/;"	m	struct:romfs_file	file:	access:public
+len	romfs.c	/^    uint32_t len;$/;"	m	struct:romfs_entry	file:	access:public
+less_than_32_bytes	memcpy.s	/^less_than_32_bytes:$/;"	l
+less_than_4_bytes	memcpy.s	/^less_than_4_bytes:$/;"	l
+list_empty	list.c	/^int list_empty(struct list *list)$/;"	f	signature:(struct list *list)
+list_init	list.c	/^void list_init(struct list* list)$/;"	f	signature:(struct list* list)
+list_push	list.c	/^void list_push(struct list *list, struct list *new)$/;"	f	signature:(struct list *list, struct list *new)
+list_remove	list.c	/^void list_remove(struct list *list)$/;"	f	signature:(struct list *list)
+list_shift	list.c	/^struct list* list_shift(struct list *list)$/;"	f	signature:(struct list *list)
+list_unshift	list.c	/^void list_unshift(struct list *list, struct list *new)$/;"	f	signature:(struct list *list, struct list *new)
+lseek	syscall.s	/^lseek:$/;"	l
+main	kernel.c	/^int main()$/;"	f
+memcpy	memcpy.s	/^memcpy:$/;"	l
+memory_pool_alloc	memory-pool.c	/^void *memory_pool_alloc(struct memory_pool *pool, size_t size)$/;"	f	signature:(struct memory_pool *pool, size_t size)
+memory_pool_init	memory-pool.c	/^void memory_pool_init(struct memory_pool *pool, size_t size, char *memory)$/;"	f	signature:(struct memory_pool *pool, size_t size, char *memory)
+memory_space	kernel.c	/^char memory_space[MEM_LIMIT];$/;"	v
+mkfifo	fifo.c	/^int mkfifo(const char *pathname, int mode)$/;"	f	signature:(const char *pathname, int mode)
+mkfile	file.c	/^int mkfile(const char *pathname, int mode, int dev)$/;"	f	signature:(const char *pathname, int mode, int dev)
+mknod	syscall.s	/^mknod:$/;"	l
+mount	path.c	/^int mount(const char *src, const char *dst, const char *type, int flags)$/;"	f	signature:(const char *src, const char *dst, const char *type, int flags)
+mount	path.c	/^struct mount {$/;"	s	file:
+mount::dev	path.c	/^    int dev;$/;"	m	struct:mount	file:	access:public
+mount::fs	path.c	/^    int fs;$/;"	m	struct:mount	file:	access:public
+mount::path	path.c	/^    char path[PATH_MAX];$/;"	m	struct:mount	file:	access:public
+mq_init	mqueue.c	/^mq_init(int fd, int driver_pid, struct file *files[],$/;"	f	signature:(int fd, int driver_pid, struct file *files[], struct memory_pool *memory_pool, struct event_monitor *monitor)
+mq_open	mqueue.c	/^int mq_open(const char *name, int oflag)$/;"	f	signature:(const char *name, int oflag)
+mq_ops	mqueue.c	/^static struct file_operations mq_ops = {$/;"	v	typeref:struct:file_operations	file:
+mq_read	mqueue.c	/^mq_read (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+mq_readable	mqueue.c	/^mq_readable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+mq_writable	mqueue.c	/^mq_writable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+mq_write	mqueue.c	/^mq_write (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+name	kernel.c	/^	char name[MAX_ENVNAME + 1];$/;"	m	struct:__anon3	file:	access:public
+name	romfs.c	/^    uint8_t name[PATH_MAX];$/;"	m	struct:romfs_entry	file:	access:public
+next	romfs.c	/^    uint32_t next;$/;"	m	struct:romfs_entry	file:	access:public
+next_line	kernel.c	/^char next_line[3] = {'\\n','\\r','\\0'};$/;"	v
+open	file.c	/^int open(const char *pathname, int flags)$/;"	f	signature:(const char *pathname, int flags)
+parent	romfs.c	/^    uint32_t parent;$/;"	m	struct:romfs_entry	file:	access:public
+path	path.c	/^    char path[PATH_MAX];$/;"	m	struct:mount	file:	access:public
+path_register	path.c	/^int path_register(const char *pathname)$/;"	f	signature:(const char *pathname)
+path_register_fs	path.c	/^int path_register_fs(const char *type)$/;"	f	signature:(const char *type)
+pathserver	path.c	/^void pathserver()$/;"	f
+pipe_read_release	pipe.c	/^int pipe_read_release(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, struct task_control_block *task, void *data)
+pipe_write_release	pipe.c	/^int pipe_write_release(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, struct task_control_block *task, void *data)
+prev	romfs.c	/^    uint32_t prev;$/;"	m	struct:romfs_entry	file:	access:public
+puts	string.c	/^void puts(char *s)$/;"	f	signature:(char *s)
+queue_str_task	kernel.c	/^void queue_str_task(const char *str, int delay)$/;"	f	signature:(const char *str, int delay)
+queue_str_task1	kernel.c	/^void queue_str_task1()$/;"	f
+queue_str_task2	kernel.c	/^void queue_str_task2()$/;"	f
+read	syscall.s	/^read:$/;"	l
+ready_list	kernel.c	/^struct list ready_list[PRIORITY_LIMIT + 1];  \/* [0 ... 39] *\/$/;"	v	typeref:struct:list
+regfile_driver_lseek	regfile.c	/^int regfile_driver_lseek (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_driver_lseekable	regfile.c	/^int regfile_driver_lseekable (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_driver_read	regfile.c	/^int regfile_driver_read (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_driver_readable	regfile.c	/^int regfile_driver_readable (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_driver_writable	regfile.c	/^int regfile_driver_writable (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_driver_write	regfile.c	/^int regfile_driver_write (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_event_release	regfile.c	/^int regfile_event_release(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, struct task_control_block *task, void *data)
+regfile_init	regfile.c	/^int regfile_init(int fd, int driver_pid, struct file *files[],$/;"	f	signature:(int fd, int driver_pid, struct file *files[], struct memory_pool *memory_pool, struct event_monitor *monitor)
+regfile_lseek	regfile.c	/^int regfile_lseek (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+regfile_lseekable	regfile.c	/^int regfile_lseekable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+regfile_ops	regfile.c	/^static struct file_operations regfile_ops = {$/;"	v	typeref:struct:file_operations	file:
+regfile_read	regfile.c	/^int regfile_read (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+regfile_readable	regfile.c	/^int regfile_readable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+regfile_request_lseek	regfile.c	/^int regfile_request_lseek (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_request_lseekable	regfile.c	/^int regfile_request_lseekable (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_request_read	regfile.c	/^int regfile_request_read (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_request_readable	regfile.c	/^int regfile_request_readable (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_request_writable	regfile.c	/^int regfile_request_writable (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_request_write	regfile.c	/^int regfile_request_write (struct regfile *regfile, struct file_request *request,$/;"	f	signature:(struct regfile *regfile, struct file_request *request, struct event_monitor *monitor)
+regfile_response	regfile.c	/^int regfile_response(int fd, char *buf, int len)$/;"	f	signature:(int fd, char *buf, int len)
+regfile_response	regfile.c	/^struct regfile_response {$/;"	s	file:
+regfile_response::buf	regfile.c	/^    char *buf;$/;"	m	struct:regfile_response	file:	access:public
+regfile_response::transfer_len	regfile.c	/^    int transfer_len;$/;"	m	struct:regfile_response	file:	access:public
+regfile_writable	regfile.c	/^int regfile_writable (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+regfile_write	regfile.c	/^int regfile_write (struct file *file, struct file_request *request,$/;"	f	signature:(struct file *file, struct file_request *request, struct event_monitor *monitor)
+requests	kernel.c	/^struct file_request requests[TASK_LIMIT];$/;"	v	typeref:struct:file_request
+romdev_driver	romdev.c	/^void romdev_driver()$/;"	f
+romfs_entry	romfs.c	/^struct romfs_entry {$/;"	s	file:
+romfs_entry::isdir	romfs.c	/^    uint32_t isdir;$/;"	m	struct:romfs_entry	file:	access:public
+romfs_entry::len	romfs.c	/^    uint32_t len;$/;"	m	struct:romfs_entry	file:	access:public
+romfs_entry::name	romfs.c	/^    uint8_t name[PATH_MAX];$/;"	m	struct:romfs_entry	file:	access:public
+romfs_entry::next	romfs.c	/^    uint32_t next;$/;"	m	struct:romfs_entry	file:	access:public
+romfs_entry::parent	romfs.c	/^    uint32_t parent;$/;"	m	struct:romfs_entry	file:	access:public
+romfs_entry::prev	romfs.c	/^    uint32_t prev;$/;"	m	struct:romfs_entry	file:	access:public
+romfs_file	romfs.c	/^struct romfs_file {$/;"	s	file:
+romfs_file::device	romfs.c	/^    int device;$/;"	m	struct:romfs_file	file:	access:public
+romfs_file::fd	romfs.c	/^    int fd;$/;"	m	struct:romfs_file	file:	access:public
+romfs_file::len	romfs.c	/^    size_t len;$/;"	m	struct:romfs_file	file:	access:public
+romfs_file::start	romfs.c	/^    int start;$/;"	m	struct:romfs_file	file:	access:public
+romfs_open	romfs.c	/^int romfs_open(int device, char *path, struct romfs_entry *entry)$/;"	f	signature:(int device, char *path, struct romfs_entry *entry)
+romfs_open_recur	romfs.c	/^int romfs_open_recur(int device, char *path, int this, struct romfs_entry *entry)$/;"	f	signature:(int device, char *path, int this, struct romfs_entry *entry)
+romfs_server	romfs.c	/^void romfs_server()$/;"	f
+rs232_xmit_msg_task	kernel.c	/^void rs232_xmit_msg_task()$/;"	f
+serial_readwrite_task	kernel.c	/^void serial_readwrite_task()$/;"	f
+serial_test_task	kernel.c	/^void serial_test_task()$/;"	f
+serialin	kernel.c	/^void serialin(USART_TypeDef* uart, unsigned int intr)$/;"	f	signature:(USART_TypeDef* uart, unsigned int intr)
+serialout	kernel.c	/^void serialout(USART_TypeDef* uart, unsigned int intr)$/;"	f	signature:(USART_TypeDef* uart, unsigned int intr)
+setpriority	syscall.s	/^setpriority:$/;"	l
+show_cmd_info	kernel.c	/^void show_cmd_info(int argc, char *argv[]);$/;"	p	file:	signature:(int argc, char *argv[])
+show_cmd_info	kernel.c	/^void show_cmd_info(int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
+show_echo	kernel.c	/^void show_echo(int argc, char *argv[]);$/;"	p	file:	signature:(int argc, char *argv[])
+show_echo	kernel.c	/^void show_echo(int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
+show_history	kernel.c	/^void show_history(int argc, char *argv[])$/;"	f	signature:(int argc, char *argv[])
+show_history	kernel.c	/^void show_history(int argc, char *argv[]);$/;"	p	file:	signature:(int argc, char *argv[])
+show_man_page	kernel.c	/^void show_man_page(int argc, char *argv[])$/;"	f	signature:(int argc, char *argv[])
+show_man_page	kernel.c	/^void show_man_page(int argc, char *argv[]);$/;"	p	file:	signature:(int argc, char *argv[])
+show_task_info	kernel.c	/^void show_task_info(int argc, char *argv[]);$/;"	p	file:	signature:(int argc, char *argv[])
+show_task_info	kernel.c	/^void show_task_info(int argc, char* argv[])$/;"	f	signature:(int argc, char* argv[])
+show_xxd	kernel.c	/^void show_xxd(int argc, char *argv[])$/;"	f	signature:(int argc, char *argv[])
+show_xxd	kernel.c	/^void show_xxd(int argc, char *argv[]);$/;"	p	file:	signature:(int argc, char *argv[])
+sleep	syscall.s	/^sleep:$/;"	l
+stacks	kernel.c	/^unsigned int stacks[TASK_LIMIT][STACK_SIZE];$/;"	v
+start	romfs.c	/^    int start;$/;"	m	struct:romfs_file	file:	access:public
+strcmp	string.c	/^int strcmp(const char *a, const char *b)$/;"	f	signature:(const char *a, const char *b)
+strlen	string.c	/^size_t strlen(const char *s)$/;"	f	signature:(const char *s)
+strncmp	string.c	/^int strncmp(const char *a, const char *b, size_t n)$/;"	f	signature:(const char *a, const char *b, size_t n)
+task_count	kernel.c	/^size_t task_count = 0;$/;"	v
+tasks	kernel.c	/^struct task_control_block tasks[TASK_LIMIT];$/;"	v	typeref:struct:task_control_block
+time_release	kernel.c	/^int time_release(struct event_monitor *monitor, int event,$/;"	f	signature:(struct event_monitor *monitor, int event, struct task_control_block *task, void *data)
+transfer_len	block.c	/^    int transfer_len;$/;"	m	struct:block_response	file:	access:public
+transfer_len	regfile.c	/^    int transfer_len;$/;"	m	struct:regfile_response	file:	access:public
+value	kernel.c	/^	char value[MAX_ENVVALUE + 1];$/;"	m	struct:__anon3	file:	access:public
+write	syscall.s	/^write:$/;"	l
+write_blank	kernel.c	/^void write_blank(int blank_num)$/;"	f	signature:(int blank_num)
+write_blank	kernel.c	/^void write_blank(int blank_num);$/;"	p	file:	signature:(int blank_num)
